@@ -1,145 +1,87 @@
-# Food Store — Repositorio Base
+# Food Store
 
-Sistema de e-commerce de productos alimenticios desarrollado con **Spec-Driven Development (SDD)** usando OPSX y Claude Code.
+A full-stack e-commerce platform for food delivery built with modern technologies.
 
----
+## Project Structure
 
-## Documentación del sistema
-
-Antes de escribir una línea de código, leé los tres documentos en `docs/`:
-
-| Archivo | Contenido |
-|---------|-----------|
-| `docs/Descripcion.txt` | Visión general, actores del sistema y stack tecnológico |
-| `docs/Integrador.txt` | Arquitectura en capas, ERD, API REST y patrones de diseño |
-| `docs/Historias_de_usuario.txt` | US-000 a US-076 con criterios de aceptación y reglas de negocio |
-
-Estos documentos son la fuente de verdad del sistema. El agente los lee antes de cada propuesta.
-
----
-
-## Stack tecnológico
-
-**Backend**: FastAPI · SQLModel · PostgreSQL · Alembic · bcrypt · python-jose · slowapi · MercadoPago SDK  
-**Frontend**: React · TypeScript · Vite · TanStack Query · TanStack Form · Zustand · Axios · Tailwind CSS · Recharts
-
----
-
-## Setup del entorno de desarrollo
-
-### Requisitos previos
-- Python 3.11+
-- Node.js 18+
-- PostgreSQL 15+
-- Claude Code: `npm install -g @anthropic-ai/claude-code`
-- OpenSpec CLI: `npm install -g @fission-ai/openspec`
-
-### 1. Clonar e inicializar
-
-```bash
-git clone <url-del-repo> food-store
-cd food-store
+```
+.
+├── backend/           # FastAPI backend (Python)
+├── frontend/          # React + Vite frontend (TypeScript)
+├── docs/             # Project documentation
+└── openspec/         # SDD (Spec-Driven Development) artifacts
+    └── changes/      # Feature changes with specs and designs
 ```
 
-### 2. Inicializar OpenSpec
+## Quick Start
 
-```bash
-npx @fission-ai/openspec@latest init
-```
-
-Esto genera la carpeta `openspec/` donde van a vivir todos los artefactos del proyecto.
-
-### 3. Backend
+### Backend Setup
 
 ```bash
 cd backend
-cp .env.example .env
-# Completar las variables de entorno en .env
-
-python -m venv .venv
-source .venv/bin/activate   # Linux/Mac
-.venv\Scripts\activate      # Windows
-
+python -m venv venv
+source venv/bin/activate  # Windows: venv\Scripts\activate
 pip install -r requirements.txt
-alembic upgrade head
-python -m app.db.seed
-uvicorn app.main:app --reload
+python main.py
 ```
 
-API disponible en `http://localhost:8000`  
-Documentación Swagger en `http://localhost:8000/docs`
+Backend runs on `http://localhost:8000`
 
-### 4. Frontend
+### Frontend Setup
 
 ```bash
 cd frontend
-cp .env.example .env
-# Completar VITE_API_URL=http://localhost:8000
-
 npm install
 npm run dev
 ```
 
-App disponible en `http://localhost:5173`
+Frontend runs on `http://localhost:5173`
 
----
+## Documentation
 
-## Flujo de desarrollo con OPSX
+- [Backend Documentation](backend/README.md) - FastAPI setup and structure
+- [Frontend Documentation](frontend/README.md) - React + Vite architecture
+- [Project Description](docs/Descripcion.txt) - System overview and requirements
+- [User Stories](docs/Historias_de_usuario.txt) - Feature specifications
+- [Change Map](docs/CHANGES.md) - Development roadmap using SDD
 
-Todo cambio al sistema sigue este ciclo:
+## Technology Stack
 
-```
-/opsx:explore   →  pensar antes de comprometerse (opcional)
-/opsx:propose   →  generar propuesta + diseño + tareas
-/opsx:apply     →  implementar tarea por tarea
-/opsx:archive   →  sincronizar specs y cerrar el change
-```
+### Backend
+- **Framework**: FastAPI (Python)
+- **Database**: PostgreSQL + SQLModel ORM
+- **Authentication**: JWT with refresh tokens
+- **Payments**: MercadoPago integration
 
-### Orden de implementación
+### Frontend
+- **Framework**: React 18 with TypeScript
+- **Build Tool**: Vite
+- **State Management**: Zustand + TanStack Query
+- **Styling**: Tailwind CSS
+- **Form Handling**: TanStack Form
 
-```
-us-000-setup               ← infraestructura base (Sprint 0)
-us-001-auth                ← JWT · RBAC · refresh tokens
-us-002-categorias          ← catálogo jerárquico
-us-003-productos           ← CRUD · stock · ingredientes
-us-004-carrito             ← estado client-side con Zustand
-us-005-pedidos             ← UoW · FSM · audit trail
-us-006-pagos-mercadopago   ← checkout · webhooks IPN
-us-007-admin               ← panel · métricas
-us-008-direcciones         ← direcciones de entrega
-```
+## Development Workflow
 
----
+This project uses **Spec-Driven Development (SDD)**. Every feature is built through:
 
-## Variables de entorno
+1. **Propose** → Define what and why
+2. **Design** → Plan architecture
+3. **Implement** → Execute tasks
+4. **Verify** → Validate against specs
+5. **Archive** → Document and move forward
 
-Crear `backend/.env` a partir de `backend/.env.example`:
+See `docs/CHANGES.md` for the complete roadmap.
 
-```env
-DATABASE_URL=postgresql://user:password@localhost:5432/foodstore
-SECRET_KEY=tu-clave-secreta-de-64-caracteres-minimo
-ACCESS_TOKEN_EXPIRE_MINUTES=30
-REFRESH_TOKEN_EXPIRE_DAYS=7
-MP_ACCESS_TOKEN=TEST-tu-token-de-mercadopago
-MP_PUBLIC_KEY=TEST-tu-public-key-de-mercadopago
-CORS_ORIGINS=http://localhost:5173
-```
+## API Documentation
 
-Crear `frontend/.env` a partir de `frontend/.env.example`:
+Once the backend is running, visit:
+- Swagger UI: `http://localhost:8000/docs`
+- ReDoc: `http://localhost:8000/redoc`
 
-```env
-VITE_API_URL=http://localhost:8000
-VITE_MP_PUBLIC_KEY=TEST-tu-public-key-de-mercadopago
-```
+## Contributing
 
----
+Each change follows the SDD workflow. Changes are tracked in `openspec/changes/`.
 
-## Convenciones de commits
+## License
 
-```
-feat(modulo): descripción del cambio
-fix(modulo): descripción del bug corregido
-refactor(modulo): descripción del refactor
-test(modulo): descripción de los tests
-docs(modulo): descripción del cambio en docs
-```
+MIT

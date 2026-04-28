@@ -1,0 +1,43 @@
+name: infrastructure-setup
+version: 1.0.0
+status: proposed
+
+description: |
+  Establece la infraestructura base del proyecto Food Store: 
+  estructura de carpetas, dependencias, configuración de herramientas 
+  de desarrollo para backend (FastAPI) y frontend (React + Vite).
+
+artifacts:
+  - id: proposal
+    type: proposal
+    status: completed
+    description: What & why
+    path: proposal.md
+  
+  - id: design
+    type: design
+    status: completed
+    description: Technical how-to
+    path: design.md
+  
+  - id: tasks
+    type: tasks
+    status: completed
+    description: Implementation checklist
+    path: tasks.md
+
+dependencies: []
+
+effort:
+  estimate: 2
+  unit: points
+  hours_low: 4
+  hours_high: 6
+
+user_stories:
+  - US-000
+  - US-000a
+  - US-000c
+
+owner: null
+created_at: 2026-04-27
